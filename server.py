@@ -83,10 +83,23 @@ class Server(object):
         :param room_number: int
         :return: str
         """
+        description = {
+            0: "Warm light floods the living room from the many windows, glinting off the " \
+                "gold filigreed wallpaper.  There are doors to the west, north, and east.",
+            1: "The storage room has bare, unfinished walls lit by a single incandescent light " \
+                "bulb.  The room smells faintly musty, and the layer of dust on the crowded " \
+                "gives the room a feeling of disuse.  There is a door to the east.",
+            2: "A spacious, eat-in chef's kitchen.  The stainless steel and marble finishes are " \
+                "spotless but for the beginning of the evening's dinner preparations (lobster " \
+                "risotto, prime rib, and a chocolate bundt cake.  There is a door to the west.",
+            3: "A large bedroom with a sitting area flanking a fireplace.  Rich, velvet " \
+                "curtains flank the old-fashioned four-poster bed.  There is a door to the south."
+        }
 
-        # TODO: YOUR CODE HERE
-
-        pass
+        try:
+            return description[room_number]
+        except KeyError:
+            return "You are in a dark, unknown place..."
 
     def greet(self):
         """
