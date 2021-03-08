@@ -201,10 +201,12 @@ class Server(object):
         
         :return: None 
         """
+        if self.output_buffer != "":
+            self.client_connection.sendall("OK! {}\n".format(
+                self.output_buffer
+            ).encode())
 
-        # TODO: YOUR CODE HERE
-
-        pass
+            self.output_buffer = ""
 
     def serve(self):
         self.connect()
