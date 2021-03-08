@@ -60,6 +60,11 @@ class Server(object):
             socket.AF_INET,
             socket.SOCK_STREAM,
             socket.IPPROTO_TCP)
+        self.socket.setsockopt(
+            socket.SOL_SOCKET,
+            socket.SO_REUSEADDR,
+            1
+        )
 
         address = ('127.0.0.1', self.port)
         self.socket.bind(address)
