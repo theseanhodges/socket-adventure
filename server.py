@@ -152,7 +152,18 @@ class Server(object):
         :return: None
         """
 
-        # TODO: YOUR CODE HERE
+        allowed_moves = {
+            0: {"west": 1, "north": 3, "east": 2},
+            1: {"east": 0},
+            2: {"west": 0},
+            3: {"south": 0}
+        }
+
+        try:
+            self.room = allowed_moves[self.room][argument]
+            self.output_buffer = self.room_description(self.room)
+        except KeyError:
+            self.output_buffer = "You can't move {}.".format(argument)
 
     def say(self, argument):
         """
@@ -216,7 +227,7 @@ class Server(object):
             try:
                 funcs[cmd_name](cmd_args)
             except KeyError:
-                self.output_buffer = "I don't understand '{}'".format(cmd_name)
+                self.output_buffer = "I don't understand '{}'.".format(cmd_name)
 
 
     def push_output(self):
