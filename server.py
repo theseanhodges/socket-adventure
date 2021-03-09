@@ -184,9 +184,8 @@ class Server(object):
         :return: None
         """
 
-        # TODO: YOUR CODE HERE
-
-        pass
+        self.output_buffer = "Goodbye!"
+        self.done = True
 
     def route(self):
         """
