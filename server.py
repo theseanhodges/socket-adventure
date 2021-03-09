@@ -129,10 +129,7 @@ class Server(object):
         data = self.client_connection.recv(1024)
         if data:
             self.input_buffer += data.decode('utf8')
-        if '\n' in self.input_buffer:
             self.route()
-
-        pass
 
     def move(self, argument):
         """
@@ -156,8 +153,6 @@ class Server(object):
         """
 
         # TODO: YOUR CODE HERE
-
-        pass
 
     def say(self, argument):
         """
@@ -211,16 +206,20 @@ class Server(object):
         }
 
         newline_loc = self.input_buffer.find('\n')
-        cmd = self.input_buffer[:newline_loc]
-        self.input_buffer = self.input_buffer[newline_loc+1:]
+        if newline_loc > -1:
+            cmd = self.input_buffer[:newline_loc]
 
-        cmd_name = cmd[:cmd.find(' ')]
-        cmd_args = cmd[cmd.find(' ')+1:]
+            space_loc = cmd.find(' ') if cmd.find(' ') > -1 else len(cmd)
 
-        try:
-            funcs[cmd_name](cmd_args)
-        except KeyError:
-            self.output_buffer = "I don't understand '{}'".format(cmd_name)
+            cmd_name = cmd[:space_loc]
+            cmd_args = cmd[space_loc+1:]
+
+            self.input_buffer = self.input_buffer[newline_loc+1:]
+
+            try:
+                funcs[cmd_name](cmd_args)
+            except KeyError:
+                self.output_buffer = "I don't understand '{}'".format(cmd_name)
 
 
     def push_output(self):
