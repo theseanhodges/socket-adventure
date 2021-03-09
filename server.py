@@ -126,7 +126,11 @@ class Server(object):
         :return: None 
         """
 
-        # TODO: YOUR CODE HERE
+        data = self.client_connection.recv(1024)
+        if data:
+            self.input_buffer += data.decode('utf8')
+        if '\n' in self.input_buffer:
+            self.route()
 
         pass
 
@@ -200,10 +204,24 @@ class Server(object):
         
         :return: None
         """
+        funcs = {
+            'move': self.move,
+            'quit': self.quit,
+            'say': self.say,
+        }
 
-        # TODO: YOUR CODE HERE
+        newline_loc = self.input_buffer.find('\n')
+        cmd = self.input_buffer[:newline_loc]
+        self.input_buffer = self.input_buffer[newline_loc+1:]
 
-        pass
+        cmd_name = cmd[:cmd.find(' ')]
+        cmd_args = cmd[cmd.find(' ')+1:]
+
+        try:
+            funcs[cmd_name](cmd_args)
+        except KeyError:
+            self.output_buffer = "I don't understand '{}'".format(cmd_name)
+
 
     def push_output(self):
         """
